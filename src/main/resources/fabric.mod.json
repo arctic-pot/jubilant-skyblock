@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "jublockly",
+  "version": "${version}",
+  "name": "jublockly",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/arctic-pot/jublockly"
+  },
+  "license": "MIT",
+  "icon": "assets/jublockly/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "io.github.arcticpot.jublockly.client.JublocklyClient"
+    ],
+    "main": [
+      "io.github.arcticpot.jublockly.Jublockly"
+    ]
+  },
+  "mixins": [
+    "jublockly.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
