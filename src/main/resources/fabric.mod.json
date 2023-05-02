@@ -13,16 +13,23 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "io.github.arcticpot.jublockly.client.JublocklyClient"
+      {
+        "adapter": "kotlin",
+        "value": "io.github.arcticpot.jublockly.client.JublocklyClient"
+      }
     ],
     "main": [
-      "io.github.arcticpot.jublockly.Jublockly"
+      {
+        "adapter": "kotlin",
+        "value": "io.github.arcticpot.jublockly.Jublockly"
+      }
     ]
   },
   "mixins": [
     "jublockly.mixins.json"
   ],
   "depends": {
+    "fabric-language-kotlin": ">=1.9.4+kotlin.1.8.21",
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
