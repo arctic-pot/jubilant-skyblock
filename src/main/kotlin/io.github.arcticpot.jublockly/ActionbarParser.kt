@@ -2,7 +2,7 @@ package io.github.arcticpot.jublockly
 
 import net.minecraft.util.Formatting
 
-class StatParser {
+class ActionbarParser {
     /** A stat with a value, a max value and an overflow value */
     data class Stat(var value: Int, var max: Int, var overflow: Int)
 
@@ -34,6 +34,7 @@ class StatParser {
                 continue
             }
         }
+
         return ""
     }
 
@@ -43,7 +44,7 @@ class StatParser {
 
     private val healthRegex = Regex("(\\d{0,3}(,?\\d{3})*)/(\\d{0,3}(,?\\d{3})*).*")
     private fun updateHealth(content: String) {
-        val match = healthRegex.matchEntire(content) ?: return
+        val match = healthRegex.find(content) ?: return
         val matchGroups = match.groups
         val value = parseSeperatedNum(matchGroups[1]!!.value)
         val max = parseSeperatedNum(matchGroups[3]!!.value)
@@ -66,7 +67,7 @@ class StatParser {
 
     private val manaRegex = Regex("(\\d{0,3}(,?\\d{3})*)/(\\d{0,3}(,?\\d{3})*)✎( +?(\\d{0,3}(,?\\d{3})*)ʬ)?")
     private fun updateMana(strippedContent: String) {
-        val match = manaRegex.matchEntire(strippedContent) ?: return
+        val match = manaRegex.find(strippedContent) ?: return
         val matchGroups = match.groups
         mana.value = parseSeperatedNum(matchGroups[1]!!.value)
         mana.max = parseSeperatedNum(matchGroups[3]!!.value)
@@ -75,6 +76,7 @@ class StatParser {
         else mana.overflow = parseSeperatedNum(overflowMana)
     }
 
+    companion object {
+        val instance = ActionbarParser()
+    }
 }
-
-val statParser = StatParser()
