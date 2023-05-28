@@ -80,14 +80,6 @@ jar {
     }
 }
 
-sourceSets {
-    main {
-        resources {
-            exclude '**/*.png'
-        }
-    }
-}
-
 // configure the maven publication
 publishing {
     publications {
