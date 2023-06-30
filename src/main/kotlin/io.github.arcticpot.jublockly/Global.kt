@@ -1,4 +1,6 @@
 package io.github.arcticpot.jublockly
 
-var inSkyBlock = false;
-var inDungeon = false;
+object Global {
+    var inSkyBlock = false
+    var inDungeon = false
+}

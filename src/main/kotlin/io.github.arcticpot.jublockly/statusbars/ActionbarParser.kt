@@ -1,10 +1,12 @@
-package io.github.arcticpot.jublockly
+package io.github.arcticpot.jublockly.statusbars
 
 import net.minecraft.util.Formatting
 
-class ActionbarParser {
+object ActionbarParser {
     /** A stat with a value, a max value and an overflow value */
-    data class Stat(var value: Int, var max: Int, var overflow: Int)
+    data class Stat(var value: Int, var max: Int, var overflow: Int) {
+        val hasOverflow: Boolean get() = overflow > 0
+    }
 
     enum class HealthType {
         Normal,
@@ -16,9 +18,13 @@ class ActionbarParser {
     var health = Stat(value = 0, max = 100, overflow = 0)
     var mana = Stat(value = 0, max = 100, overflow = 0)
     var defense = 0
+    var zombieSword: Pair<Int, Int>? = null
+
     fun parse(actionbar: String): String {
         // Here, we split the actionbar by *more than two* spaces.
         val splitActionBar = actionbar.split(Regex("  +"))
+        var retainParts = arrayOf<String>()
+        resetNullables()
         for (part in splitActionBar) {
             val stripped = Formatting.strip(part)!!
             if (part.contains("❤")) {
@@ -33,9 +39,18 @@ class ActionbarParser {
                 updateMana(stripped)
                 continue
             }
+            if (part.contains("ⓩ") || part.contains("Ⓞ")) {
+                updateZombieSword(stripped)
+                continue
+            }
+            retainParts += part
         }
 
-        return ""
+        return retainParts.joinToString("    ")
+    }
+
+    private fun resetNullables() {
+        zombieSword = null
     }
 
     private fun parseSeperatedNum(str: String): Int {
@@ -76,7 +91,12 @@ class ActionbarParser {
         else mana.overflow = parseSeperatedNum(overflowMana)
     }
 
-    companion object {
-        val instance = ActionbarParser()
+    private val zombieSwordRegex = Regex("(ⓩ{0,5})(Ⓞ{0,5})")
+    private fun updateZombieSword(strippedContent: String) {
+        val match = zombieSwordRegex.find(strippedContent) ?: return
+        val matchGroups = match.groups
+        val availableCount = matchGroups[1]!!.value.length
+        val onCooldownCount = matchGroups[2]!!.value.length
+        zombieSword = Pair(availableCount, onCooldownCount)
     }
 }

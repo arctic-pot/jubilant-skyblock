@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom' version '1.2-SNAPSHOT'
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version '1.8.21'
 }
@@ -14,6 +14,9 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    maven {
+        url = "https://repo.essential.gg/repository/maven-public"
+    }
 }
 
 dependencies {
@@ -26,7 +29,13 @@ dependencies {
 
         // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation include("gg.essential:vigilance-1.18.1-fabric:284") {
+        exclude group: "gg.essential", module: "universalcraft-1.18.1-fabric"
+    }
+    modImplementation(include("gg.essential:universalcraft-1.20.1-fabric:277"))
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
 }
 
 processResources {
