@@ -1,0 +1,7 @@
+{
+  "category.jublockly.general": "Jublockly",
+  "key.jublockly.config": "Open Configuration GUI",
+  "config.jublockly.gui": "GUI",
+  "config.jublockly.gui.enableActionBar": "Enable fancy action bar",
+  "config.jublockly.gui.enableActionBar.description": "Parse your action bar to make human-friendly status bars"
+}

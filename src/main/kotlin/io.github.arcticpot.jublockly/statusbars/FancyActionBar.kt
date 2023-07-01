@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
 
-object FancyStatusBar {
+object FancyActionBar {
     private val client = MinecraftClient.getInstance()
     private val textRenderer = client.textRenderer
     private const val barHeight = 5
@@ -33,15 +33,15 @@ object FancyStatusBar {
         drawManaBar(context, hotbarX + hotbarWidth - barWidth, statBarY)
         drawExperienceBar(context, hotbarX, xpBarY)
 
-        if (ActionbarParser.zombieSword != null) {
+        if (ActionBarParser.zombieSword != null) {
 //            Jublockly.logger.info("im drawing ur ass")
             drawZombieSword(context, hotbarX + hotbarWidth + 6, hotbarY + 4)
         }
 
         // Draw Defense
 
-        val defense = ActionbarParser.defense
-        val eHealth = (ActionbarParser.health.max * (100 + ActionbarParser.defense) / 100)
+        val defense = ActionBarParser.defense
+        val eHealth = (ActionBarParser.health.max * (100 + ActionBarParser.defense) / 100)
         val defenseX = hotbarX - textRenderer.getWidth(defense.toString()) - 6
         val defenseY = scaledHeight - 2 * textRenderer.fontHeight - 5
         val eHealthX = hotbarX - textRenderer.getWidth(eHealth.toString()) - 6
@@ -52,7 +52,7 @@ object FancyStatusBar {
 
 
     private fun drawHealthBar(context: DrawContext, x: Int, y: Int, blinking: Boolean) {
-        val health = ActionbarParser.health
+        val health = ActionBarParser.health
         val barText = "${health.value + health.overflow}/${health.max}"
         with(healthBar) {
             move(x, y)
@@ -66,7 +66,7 @@ object FancyStatusBar {
 
 
     private fun drawManaBar(context: DrawContext, x: Int, y: Int) {
-        val mana = ActionbarParser.mana
+        val mana = ActionBarParser.mana
         with(manaBar) {
             move(x, y)
             drawBorder(context)
@@ -98,8 +98,8 @@ object FancyStatusBar {
     }
 
     private fun drawZombieSword(context: DrawContext, x: Int, y: Int) {
-        val available = ActionbarParser.zombieSword!!.first
-        val cooldown = ActionbarParser.zombieSword!!.second
+        val available = ActionBarParser.zombieSword!!.first
+        val cooldown = ActionBarParser.zombieSword!!.second
         var currentX = x
         repeat(available) {
             context.drawTexture(statusResource, currentX, y, 0, 0, 7, 7)

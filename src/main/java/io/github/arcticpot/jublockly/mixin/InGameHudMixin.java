@@ -1,7 +1,8 @@
 package io.github.arcticpot.jublockly.mixin;
 
-import io.github.arcticpot.jublockly.statusbars.ActionbarParser;
-import io.github.arcticpot.jublockly.statusbars.FancyStatusBar;
+import io.github.arcticpot.jublockly.config.JublocklyConfig;
+import io.github.arcticpot.jublockly.statusbars.ActionBarParser;
+import io.github.arcticpot.jublockly.statusbars.FancyActionBar;
 import io.github.arcticpot.jublockly.utils.SkyblockHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -17,8 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
-    final private FancyStatusBar fancyStatusBar = FancyStatusBar.INSTANCE;
-
     @Shadow
     public void setOverlayMessage(Text message, boolean tinted) {}
 
@@ -27,22 +26,24 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderStatusBars", at = @At("HEAD"), cancellable = true)
     private void $renderStatusBar(DrawContext context, CallbackInfo ci) {
-        if (!SkyblockHelper.INSTANCE.getOnSkyblock()) return;
+        if (!SkyblockHelper.INSTANCE.getOnSkyblock() || !JublocklyConfig.INSTANCE.getEnableActionBar())
+            return;
         // :)
         final boolean healthBarBlinking = false;
-        fancyStatusBar.draw(context, this.scaledWidth, this.scaledHeight, healthBarBlinking);
+        FancyActionBar.INSTANCE.draw(context, this.scaledWidth, this.scaledHeight, healthBarBlinking);
         ci.cancel();
     }
 
     @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
     private void $renderExperienceBar(DrawContext context, int x, CallbackInfo ci) {
-        if (SkyblockHelper.INSTANCE.getOnSkyblock()) ci.cancel();
+        if (SkyblockHelper.INSTANCE.getOnSkyblock() && JublocklyConfig.INSTANCE.getEnableActionBar())
+            ci.cancel();
     }
 
     @Inject(method = "setOverlayMessage", at = @At("HEAD"), cancellable = true)
     private void $setOverlayMessage(Text message, boolean tinted, CallbackInfo ci) {
-        if (!SkyblockHelper.INSTANCE.getOnSkyblock()) return;
-        final String restString = ActionbarParser.INSTANCE.parse(message.getString());
+        if (!SkyblockHelper.INSTANCE.getOnSkyblock() || !JublocklyConfig.INSTANCE.getEnableActionBar()) return;
+        final String restString = ActionBarParser.INSTANCE.parse(message.getString());
         if (!restString.isEmpty()) {
             if (restString.equals(message.getString())) {
                 return;

@@ -2,7 +2,7 @@ package io.github.arcticpot.jublockly.statusbars
 
 import net.minecraft.util.Formatting
 
-object ActionbarParser {
+object ActionBarParser {
     /** A stat with a value, a max value and an overflow value */
     data class Stat(var value: Int, var max: Int, var overflow: Int) {
         val hasOverflow: Boolean get() = overflow > 0
@@ -19,6 +19,7 @@ object ActionbarParser {
     var mana = Stat(value = 0, max = 100, overflow = 0)
     var defense = 0
     var zombieSword: Pair<Int, Int>? = null
+    var secrets: Pair<Int, Int>? = null
 
     fun parse(actionbar: String): String {
         // Here, we split the actionbar by *more than two* spaces.
@@ -50,6 +51,7 @@ object ActionbarParser {
     }
 
     private fun resetNullables() {
+        secrets = null
         zombieSword = null
     }
 
