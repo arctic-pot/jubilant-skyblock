@@ -24,7 +24,9 @@ class StatBar(
 
     fun fillPercentage(context: DrawContext, texture: StatBarTexture, percentage: Float) {
         if (percentage <= 0) return
-        texture.draw(context, x, y, (width * percentage).toInt(), percentage >= 1f)
+        val fillWidth = (width * percentage).toInt()
+        if (fillWidth <= 0) return
+        texture.draw(context, x, y, fillWidth, percentage >= 1f)
     }
 
     fun fillValue(context: DrawContext, texture: StatBarTexture, value: Int) {

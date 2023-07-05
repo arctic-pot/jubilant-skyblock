@@ -35,19 +35,21 @@ object FancyActionBar {
 
         if (ActionBarParser.zombieSword != null) {
 //            Jublockly.logger.info("im drawing ur ass")
-            drawZombieSword(context, hotbarX + hotbarWidth + 6, hotbarY + 4)
+            drawZombieSword(context, hotbarX + hotbarWidth + 6, hotbarY - textRenderer.fontHeight - 3)
         }
 
         // Draw Defense
 
         val defense = ActionBarParser.defense
-        val eHealth = (ActionBarParser.health.max * (100 + ActionBarParser.defense) / 100)
-        val defenseX = hotbarX - textRenderer.getWidth(defense.toString()) - 6
-        val defenseY = scaledHeight - 2 * textRenderer.fontHeight - 5
-        val eHealthX = hotbarX - textRenderer.getWidth(eHealth.toString()) - 6
+        val eHealth = (ActionBarParser.health.max * (100 + ActionBarParser.defense) / 100).toUInt()
+        val defenseX = hotbarX + hotbarWidth + 6
+        val defenseY = scaledHeight - 2 * textRenderer.fontHeight - 4
+        val eHealthX = hotbarX + hotbarWidth + 6
         val eHealthY = scaledHeight - textRenderer.fontHeight - 2
-        TextUtils.drawBlackBorderedText(context, textRenderer, defense.toString(), defenseX, defenseY, (0xff69db7c).toInt())
-        TextUtils.drawBlackBorderedText(context, textRenderer, eHealth.toString(), eHealthX, eHealthY, (0xff12b886).toInt())
+        TextUtils.drawBlackBorderedText(context, textRenderer, defense.toString(), defenseX, defenseY,
+            (if (ActionBarParser.isTrueDefense) 0xffffffff else 0xff69db7c).toInt())
+        TextUtils.drawBlackBorderedText(context, textRenderer, eHealth.toString(), eHealthX, eHealthY,
+            (if (ActionBarParser.isTrueDefense) 0xffaab0a7 else 0xff12b886).toInt())
     }
 
 

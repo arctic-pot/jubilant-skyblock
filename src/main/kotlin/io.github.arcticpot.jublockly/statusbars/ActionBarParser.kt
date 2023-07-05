@@ -18,6 +18,7 @@ object ActionBarParser {
     var health = Stat(value = 0, max = 100, overflow = 0)
     var mana = Stat(value = 0, max = 100, overflow = 0)
     var defense = 0
+    var isTrueDefense = false
     var zombieSword: Pair<Int, Int>? = null
     var secrets: Pair<Int, Int>? = null
 
@@ -32,7 +33,8 @@ object ActionBarParser {
                 updateHealth(stripped)
                 continue
             }
-            if (part.contains("❈ Defense")) {
+            if (part.contains("Defense")) {
+                isTrueDefense = part.contains("True")
                 updateDefense(stripped)
                 continue
             }

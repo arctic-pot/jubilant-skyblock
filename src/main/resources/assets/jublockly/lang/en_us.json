@@ -1,7 +1,10 @@
 {
   "category.jublockly.general": "Jublockly",
   "key.jublockly.config": "Open Configuration GUI",
+  "config.jublockly.general": "General",
   "config.jublockly.gui": "GUI",
   "config.jublockly.gui.enableActionBar": "Enable fancy action bar",
-  "config.jublockly.gui.enableActionBar.description": "Parse your action bar to make human-friendly status bars"
+  "config.jublockly.gui.enableActionBar.description": "Parse your action bar to make human-friendly status bars",
+  "config.jublockly.gui.parseSecrets": "Parse secrets",
+  "config.jublockly.gui.parseSecrets.description": "Show secrets together with other status bars instead of in the action bar"
 }

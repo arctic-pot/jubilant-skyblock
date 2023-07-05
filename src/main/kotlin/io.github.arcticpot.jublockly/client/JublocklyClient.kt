@@ -48,7 +48,6 @@ class JublocklyClient : ClientModInitializer {
                 ClientCommandManager.literal("jublockly:config")
                 .executes {
                     JublocklyConfig
-                    Jublockly.logger.info("Opening CONFIG by command!")
                     return@executes 1
                 })
         }
