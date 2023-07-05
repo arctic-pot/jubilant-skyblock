@@ -1,9 +1,9 @@
 package io.github.arcticpot.jublockly.mixin;
 
 import io.github.arcticpot.jublockly.config.JublocklyConfig;
-import io.github.arcticpot.jublockly.statusbars.ActionBarParser;
-import io.github.arcticpot.jublockly.statusbars.FancyActionBar;
-import io.github.arcticpot.jublockly.utils.SkyblockHelper;
+import io.github.arcticpot.jublockly.base.ActionBarParser;
+import io.github.arcticpot.jublockly.gui.statusbars.FancyActionBar;
+import io.github.arcticpot.jublockly.base.SkyblockHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;

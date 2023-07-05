@@ -1,4 +1,4 @@
-package io.github.arcticpot.jublockly.utils
+package io.github.arcticpot.jublockly.base
 
 object SkyblockHelper {
     enum class DungeonType {

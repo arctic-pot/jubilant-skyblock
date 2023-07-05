@@ -1,5 +1,6 @@
-package io.github.arcticpot.jublockly.statusbars
+package io.github.arcticpot.jublockly.gui.statusbars
 
+import io.github.arcticpot.jublockly.base.ActionBarParser
 import io.github.arcticpot.jublockly.utils.gui.text.TextUtils
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
@@ -100,14 +101,14 @@ object FancyActionBar {
     }
 
     private fun drawZombieSword(context: DrawContext, x: Int, y: Int) {
-        val available = ActionBarParser.zombieSword!!.first
-        val cooldown = ActionBarParser.zombieSword!!.second
+        val available = ActionBarParser.zombieSword!!.value
+        val max = ActionBarParser.zombieSword!!.max
         var currentX = x
         repeat(available) {
             context.drawTexture(statusResource, currentX, y, 0, 0, 7, 7)
             currentX += 8
         }
-        repeat(cooldown) {
+        repeat(max - available) {
             context.drawTexture(statusResource, currentX, y, 8, 0, 7, 7)
             currentX += 8
         }

@@ -3,6 +3,7 @@ package io.github.arcticpot.jublockly.config
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
+import net.minecraft.client.MinecraftClient
 import java.io.File
 
 object JublocklyConfig : Vigilant(File("./config/jublockly.toml")) {
@@ -28,5 +29,10 @@ object JublocklyConfig : Vigilant(File("./config/jublockly.toml")) {
 
         val clazz = javaClass
         addDependency(clazz.getDeclaredField("parseSecrets"), clazz.getDeclaredField("enableActionBar"))
+    }
+
+    fun showScreen() {
+        val gui = gui()
+        MinecraftClient.getInstance().setScreen(gui)
     }
 }

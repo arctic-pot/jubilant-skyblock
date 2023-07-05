@@ -1,4 +1,4 @@
-package io.github.arcticpot.jublockly.statusbars
+package io.github.arcticpot.jublockly.base
 
 import net.minecraft.util.Formatting
 
@@ -7,6 +7,9 @@ object ActionBarParser {
     data class Stat(var value: Int, var max: Int, var overflow: Int) {
         val hasOverflow: Boolean get() = overflow > 0
     }
+
+    /** A stat with a value, a max value but without an overflow value */
+    data class LimitedStat(var value: Int, var max: Int) {}
 
     enum class HealthType {
         Normal,
@@ -19,8 +22,8 @@ object ActionBarParser {
     var mana = Stat(value = 0, max = 100, overflow = 0)
     var defense = 0
     var isTrueDefense = false
-    var zombieSword: Pair<Int, Int>? = null
-    var secrets: Pair<Int, Int>? = null
+    var zombieSword: LimitedStat? = null
+    var secrets: LimitedStat? = null
 
     fun parse(actionbar: String): String {
         // Here, we split the actionbar by *more than two* spaces.
@@ -101,6 +104,6 @@ object ActionBarParser {
         val matchGroups = match.groups
         val availableCount = matchGroups[1]!!.value.length
         val onCooldownCount = matchGroups[2]!!.value.length
-        zombieSword = Pair(availableCount, onCooldownCount)
+        zombieSword = LimitedStat(availableCount, onCooldownCount + availableCount)
     }
 }

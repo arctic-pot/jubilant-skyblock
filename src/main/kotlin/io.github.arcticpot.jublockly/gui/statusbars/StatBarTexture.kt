@@ -1,4 +1,4 @@
-package io.github.arcticpot.jublockly.statusbars
+package io.github.arcticpot.jublockly.gui.statusbars
 
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier

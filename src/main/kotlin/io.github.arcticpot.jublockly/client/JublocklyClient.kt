@@ -1,15 +1,13 @@
 package io.github.arcticpot.jublockly.client
 
+import io.github.arcticpot.jublockly.JublocklyCommand
 import com.mojang.brigadier.CommandDispatcher
-import io.github.arcticpot.jublockly.Jublockly
 import io.github.arcticpot.jublockly.config.JublocklyConfig
 import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.command.CommandRegistryAccess
@@ -21,9 +19,6 @@ class JublocklyClient : ClientModInitializer {
         private lateinit var configKey: KeyBinding
     }
 
-    /**
-     * Runs the mod initializer on the client environment.
-     */
     override fun onInitializeClient() {
         configKey = KeyBindingHelper.registerKeyBinding(
             KeyBinding(
@@ -36,20 +31,14 @@ class JublocklyClient : ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick {
             if (configKey.wasPressed()) {
-                val gui = JublocklyConfig.gui()
-                MinecraftClient.getInstance().setScreen(gui)
+                JublocklyConfig.showScreen()
             }
         })
 
 
         ClientCommandRegistrationCallback.EVENT.register {
                 dispatcher: CommandDispatcher<FabricClientCommandSource>, _: CommandRegistryAccess ->
-            dispatcher.register(
-                ClientCommandManager.literal("jublockly:config")
-                .executes {
-                    JublocklyConfig
-                    return@executes 1
-                })
+            JublocklyCommand.register(dispatcher)
         }
     }
 }

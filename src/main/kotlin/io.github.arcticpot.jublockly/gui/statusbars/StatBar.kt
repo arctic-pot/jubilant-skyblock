@@ -1,4 +1,4 @@
-package io.github.arcticpot.jublockly.statusbars
+package io.github.arcticpot.jublockly.gui.statusbars
 
 import io.github.arcticpot.jublockly.utils.gui.HorizontalAlignment
 import io.github.arcticpot.jublockly.utils.gui.text.TextUtils

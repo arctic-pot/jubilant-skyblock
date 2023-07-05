@@ -1,5 +1,6 @@
 package io.github.arcticpot.jublockly.utils.gui
 
+@Deprecated("This will be replaced, rewritten or deleted as it isn't graceful")
 enum class HorizontalAlignment {
     Right,
     Left,
