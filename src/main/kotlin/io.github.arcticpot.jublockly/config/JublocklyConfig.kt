@@ -10,6 +10,14 @@ object JublocklyConfig : Vigilant(File("./config/jublockly.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
+        name = "config.jublockly.qol.enableNightVision",
+        description = "config.jublockly.qol.enableNightVision.description",
+        category = "config.jublockly.qol"
+    )
+    var enableNightVision = true
+
+    @Property(
+        type = PropertyType.SWITCH,
         name = "config.jublockly.gui.enableActionBar",
         description = "config.jublockly.gui.enableActionBar.description",
         category = "config.jublockly.gui"
