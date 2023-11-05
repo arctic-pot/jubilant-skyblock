@@ -4,7 +4,7 @@ class StatValueCalculation<T>(private vararg val dependencies: StatValue<*>, pri
     override val value get() = evaluator.invoke()
 
     override val presenting get() = dependencies.all { it.presenting }
-    
+
 //    If it causes trouble...
 //    override val presenting get() = dependencies[0].presenting
 }

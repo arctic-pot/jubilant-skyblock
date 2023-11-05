@@ -12,9 +12,9 @@ class BoundStat(private val value: IntStatValue, private val max: IntStatValue) 
             BoundStat(StatValueCalculation(valueWithOverflow, max) { maxOf(valueWithOverflow.value - max.value, 0) }, max)
     }
 
-    private val current get() = value.get()
+    private val current get() = value.value
 
-    private val total get() = max.get()
+    private val total get() = max.value
 
     val percentage get() = current.toDouble() / total
 
