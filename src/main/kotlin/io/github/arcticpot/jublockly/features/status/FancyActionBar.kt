@@ -54,16 +54,20 @@ object FancyActionBar {
 
         // Draw Defense
 
-        val defense = ActionBarData.trueDefense.valueNullable ?: ActionBarData.defense.get()
-        val eHealth = (ActionBarData.maxHealth.get() * (100 + ActionBarData.defense.get()) / 100).toUInt()
+        val defense = ActionBarData.trueDefense.valueNullable ?: ActionBarData.defense.value
+        val eHealth = (ActionBarData.maxHealth.value * (100 + ActionBarData.defense.value) / 100).toUInt()
         val defenseX = hotbarX + hotbarWidth + 6
         val defenseY = scaledHeight - 2 * textRenderer.fontHeight - 4
         val effectiveHealthX = hotbarX + hotbarWidth + 6
         val effectiveHealthY = scaledHeight - textRenderer.fontHeight - 2
-        TextUtils.drawBlackBorderedText(context, textRenderer, defense.toString(), defenseX, defenseY,
-            (if (ActionBarData.trueDefense.presenting) 0xffffffff else 0xff69db7c).toInt())
-        TextUtils.drawBlackBorderedText(context, textRenderer, eHealth.toString(), effectiveHealthX, effectiveHealthY,
-            (if (ActionBarData.trueDefense.presenting) 0xffaab0a7 else 0xff12b886).toInt())
+        TextUtils.drawBlackBorderedText(
+            context, textRenderer, defense.toString(), defenseX, defenseY,
+            (if (ActionBarData.trueDefense.presenting) 0xffffffff else 0xff69db7c).toInt()
+        )
+        TextUtils.drawBlackBorderedText(
+            context, textRenderer, eHealth.toString(), effectiveHealthX, effectiveHealthY,
+            (if (ActionBarData.trueDefense.presenting) 0xffaab0a7 else 0xff12b886).toInt()
+        )
 
 
         return true
@@ -73,13 +77,13 @@ object FancyActionBar {
     private fun drawHealthBar(context: DrawContext, x: Int, y: Int, blinking: Boolean) {
         val health = ActionBarData.health
         val maxHealth = ActionBarData.maxHealth
-        val barText = "${health.get()}/${maxHealth.get()}"
+        val barText = "${health.value}/${maxHealth.value}"
         with(healthBar) {
             move(x, y)
             drawBorder(context, blinking)
             fillStat(context, healthTexture, ActionBarData.healthBound)
             fillStat(context, absorptionTexture, ActionBarData.absorptionBound)
-            drawText(context, -4, barText, (if (health.get() > maxHealth.get()) 0xffffe066 else 0xffec3500).toInt())
+            drawText(context, -4, barText, (if (health.value > maxHealth.value) 0xffffe066 else 0xffec3500).toInt())
         }
     }
 
@@ -93,7 +97,7 @@ object FancyActionBar {
             drawBorder(context)
 //            fillStat(context, overflowManaTexture, ActionBarData.overflowManaBound)
             fillStat(context, manaTexture, ActionBarData.manaBound)
-            drawText(context, -4, "${mana.get()}/${intelligence.get()}", (0xff66d9e8).toInt())
+            drawText(context, -4, "${mana.value}/${intelligence.value}", (0xff66d9e8).toInt())
         }
 
         if (overflowMana.presenting) {
@@ -118,8 +122,8 @@ object FancyActionBar {
     }
 
     private fun drawZombieSword(context: DrawContext, x: Int, y: Int) {
-        val available = ActionBarData.zombieSwordAvailable.get()
-        val used = ActionBarData.zombieSwordUsed.get()
+        val available = ActionBarData.zombieSwordAvailable.value
+        val used = ActionBarData.zombieSwordUsed.value
         var currentX = x
         repeat(available) {
             context.drawTexture(STATUS_RESOURCE, currentX, y, 0, 0, 7, 7)

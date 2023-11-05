@@ -14,8 +14,6 @@ class StatValue<T>(initialValue: T): StatValueLike<T> {
 
 //    fun getNullable() = value
 
-    override fun get() = lastNonNull
-
     // If the value is not null, then the value must be detected.
     override val presenting get() = current != null
 }
