@@ -3,7 +3,7 @@ package io.github.arcticpot.jublockly.mixin;
 import io.github.arcticpot.jublockly.base.data.ActionBarData;
 import io.github.arcticpot.jublockly.config.JublocklyConfig;
 import io.github.arcticpot.jublockly.features.reminders.EventCountdown;
-import io.github.arcticpot.jublockly.features.status.FancyActionBar;
+import io.github.arcticpot.jublockly.features.status.FancyStatusBar;
 import io.github.arcticpot.jublockly.base.SkyBlockHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -35,7 +35,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderStatusBars", at = @At("HEAD"), cancellable = true)
     private void $renderStatusBar(DrawContext context, CallbackInfo ci) {
         final boolean healthBarBlinking = false;
-        if (FancyActionBar.INSTANCE.render(context, healthBarBlinking))
+        if (FancyStatusBar.INSTANCE.render(context, healthBarBlinking))
             ci.cancel();
     }
 

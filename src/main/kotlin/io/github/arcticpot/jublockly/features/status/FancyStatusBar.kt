@@ -9,7 +9,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
 
-object FancyActionBar {
+object FancyStatusBar {
     private val client = MinecraftClient.getInstance()
     private val textRenderer = client.textRenderer
     private const val barHeight = 5
