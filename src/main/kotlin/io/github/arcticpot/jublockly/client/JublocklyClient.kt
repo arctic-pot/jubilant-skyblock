@@ -2,12 +2,14 @@ package io.github.arcticpot.jublockly.client
 
 import io.github.arcticpot.jublockly.JublocklyCommand
 import com.mojang.brigadier.CommandDispatcher
+import io.github.arcticpot.jublockly.base.data.ActionBarData
 import io.github.arcticpot.jublockly.config.JublocklyConfig
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.command.CommandRegistryAccess
@@ -31,7 +33,7 @@ class JublocklyClient : ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick {
             if (configKey.wasPressed()) {
-                JublocklyConfig.showScreen()
+                it.setScreen(JublocklyConfig.gui())
             }
         })
 

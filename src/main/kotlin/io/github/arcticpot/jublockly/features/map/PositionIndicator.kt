@@ -1,4 +1,4 @@
-package io.github.arcticpot.jublockly.gui.map
+package io.github.arcticpot.jublockly.features.map
 
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.components.UIBlock
@@ -20,7 +20,7 @@ object PositionIndicator {
     private var window: Window = Window(ElementaVersion.V2)
     private val box = UIBlock(color = Color((0x77000000).toInt(), true)).constrain {
         x = 2.pixels
-        y = 2.pixels()
+        y = 2.pixels
         width = 72.pixels
         height = 13.pixels
     } childOf window

@@ -1,12 +1,12 @@
 package io.github.arcticpot.jublockly.base
 
-object SkyblockHelper {
+object SkyBlockHelper {
     enum class DungeonType {
         Catacombs
     }
     var dungeonType: DungeonType? = null
-    var onSkyblock = true
+    var onSkyBlock = true
 
-    fun checkSkyblock() {
+    fun checkSkyBlock() {
     }
 }

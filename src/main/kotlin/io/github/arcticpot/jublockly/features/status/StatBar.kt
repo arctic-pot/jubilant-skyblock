@@ -1,5 +1,7 @@
-package io.github.arcticpot.jublockly.gui.statusbars
+package io.github.arcticpot.jublockly.features.status
 
+import io.github.arcticpot.jublockly.base.data.BoundStat
+import io.github.arcticpot.jublockly.base.data.StatValueLike
 import io.github.arcticpot.jublockly.utils.gui.HorizontalAlignment
 import io.github.arcticpot.jublockly.utils.gui.text.TextUtils
 import net.minecraft.client.MinecraftClient
@@ -22,11 +24,15 @@ class StatBar(
         else StatBarTexture.drawBarBorderOf(context, x, y, width)
     }
 
+    fun fillStat(context: DrawContext, texture: StatBarTexture, stat: BoundStat) {
+        fillPercentage(context, texture, stat.percentage.toFloat())
+    }
+
     fun fillPercentage(context: DrawContext, texture: StatBarTexture, percentage: Float) {
         if (percentage <= 0) return
-        val fillWidth = (width * percentage).toInt()
+        val fillWidth = width * percentage
         if (fillWidth <= 0) return
-        texture.draw(context, x, y, fillWidth, percentage >= 1f)
+        texture.draw(context, x, y, fillWidth.toInt(), percentage >= 1f)
     }
 
     fun fillValue(context: DrawContext, texture: StatBarTexture, value: Int) {

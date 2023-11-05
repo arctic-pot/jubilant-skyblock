@@ -1,6 +1,9 @@
-package io.github.arcticpot.jublockly.gui.statusbars
+package io.github.arcticpot.jublockly.features.status
 
-import io.github.arcticpot.jublockly.base.ActionBarParser
+import io.github.arcticpot.jublockly.base.SkyBlockHelper.onSkyBlock
+import io.github.arcticpot.jublockly.base.data.ActionBarData
+//import io.github.arcticpot.jublockly.base.data.bars.StatBarLayer
+import io.github.arcticpot.jublockly.config.JublocklyConfig.enableActionBar
 import io.github.arcticpot.jublockly.utils.gui.text.TextUtils
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
@@ -22,66 +25,80 @@ object FancyActionBar {
     private val healthBar = StatBar(0, 0, barWidth)
     private val manaBar = StatBar(0, 0, barWidth)
     private val experienceBar = StatBar(0, 0, hotbarWidth)
-    private val statusResource = Identifier("jublockly", "textures/gui/status.png")
+    private val STATUS_RESOURCE = Identifier("jublockly", "textures/gui/status.png")
 
-    fun draw(context: DrawContext, scaledWidth: Int, scaledHeight: Int, healthBarBlinking: Boolean) {
+//    private val healthBars = io.github.arcticpot.jublockly.base.data.bars.StatBar(arrayOf(
+//            StatBarLayer(0xffffe066, 1, 1)
+//    ))
+
+    fun render(context: DrawContext, healthBarBlinking: Boolean): Boolean {
+        if (!onSkyBlock || !enableActionBar) return false
+        val scaledWidth = context.scaledWindowWidth
+        val scaledHeight = context.scaledWindowHeight
         val hotbarX: Int = (scaledWidth - hotbarWidth) / 2
         val hotbarY: Int = scaledHeight - 22
         val xpBarY: Int = hotbarY - 2 - barHeight
         val statBarY: Int = xpBarY - 6 - barHeight
 
+//        if (false && ActionBarData.riftTime.presenting) {
+//
+//            return true
+//        }
         drawHealthBar(context, hotbarX, statBarY, healthBarBlinking)
         drawManaBar(context, hotbarX + hotbarWidth - barWidth, statBarY)
         drawExperienceBar(context, hotbarX, xpBarY)
 
-        if (ActionBarParser.zombieSword != null) {
-//            Jublockly.logger.info("im drawing ur ass")
+        if (ActionBarData.zombieSwordAvailable.presenting) {
             drawZombieSword(context, hotbarX + hotbarWidth + 6, hotbarY - textRenderer.fontHeight - 3)
         }
 
         // Draw Defense
 
-        val defense = ActionBarParser.defense
-        val eHealth = (ActionBarParser.health.max * (100 + ActionBarParser.defense) / 100).toUInt()
+        val defense = ActionBarData.trueDefense.valueNullable ?: ActionBarData.defense.get()
+        val eHealth = (ActionBarData.maxHealth.get() * (100 + ActionBarData.defense.get()) / 100).toUInt()
         val defenseX = hotbarX + hotbarWidth + 6
         val defenseY = scaledHeight - 2 * textRenderer.fontHeight - 4
-        val eHealthX = hotbarX + hotbarWidth + 6
-        val eHealthY = scaledHeight - textRenderer.fontHeight - 2
+        val effectiveHealthX = hotbarX + hotbarWidth + 6
+        val effectiveHealthY = scaledHeight - textRenderer.fontHeight - 2
         TextUtils.drawBlackBorderedText(context, textRenderer, defense.toString(), defenseX, defenseY,
-            (if (ActionBarParser.isTrueDefense) 0xffffffff else 0xff69db7c).toInt())
-        TextUtils.drawBlackBorderedText(context, textRenderer, eHealth.toString(), eHealthX, eHealthY,
-            (if (ActionBarParser.isTrueDefense) 0xffaab0a7 else 0xff12b886).toInt())
+            (if (ActionBarData.trueDefense.presenting) 0xffffffff else 0xff69db7c).toInt())
+        TextUtils.drawBlackBorderedText(context, textRenderer, eHealth.toString(), effectiveHealthX, effectiveHealthY,
+            (if (ActionBarData.trueDefense.presenting) 0xffaab0a7 else 0xff12b886).toInt())
+
+
+        return true
     }
 
 
     private fun drawHealthBar(context: DrawContext, x: Int, y: Int, blinking: Boolean) {
-        val health = ActionBarParser.health
-        val barText = "${health.value + health.overflow}/${health.max}"
+        val health = ActionBarData.health
+        val maxHealth = ActionBarData.maxHealth
+        val barText = "${health.get()}/${maxHealth.get()}"
         with(healthBar) {
             move(x, y)
             drawBorder(context, blinking)
-            setMaxValue(health.max)
-            fillValue(context, healthTexture, health.value)
-            fillValue(context, absorptionTexture, health.overflow)
-            drawText(context, -4, barText, (if (health.hasOverflow) 0xffffe066 else 0xffec3500).toInt())
+            fillStat(context, healthTexture, ActionBarData.healthBound)
+            fillStat(context, absorptionTexture, ActionBarData.absorptionBound)
+            drawText(context, -4, barText, (if (health.get() > maxHealth.get()) 0xffffe066 else 0xffec3500).toInt())
         }
     }
 
 
     private fun drawManaBar(context: DrawContext, x: Int, y: Int) {
-        val mana = ActionBarParser.mana
+        val mana = ActionBarData.mana
+        val overflowMana = ActionBarData.overflowMana
+        val intelligence = ActionBarData.maxMana
         with(manaBar) {
             move(x, y)
             drawBorder(context)
-            setMaxValue(mana.max)
-            fillValue(context, overflowManaTexture, mana.overflow)
-            fillValue(context, manaTexture, mana.value)
-            drawText(context, -4, "${mana.value}/${mana.max}", (0xff66d9e8).toInt())
+//            fillStat(context, overflowManaTexture, ActionBarData.overflowManaBound)
+            fillStat(context, manaTexture, ActionBarData.manaBound)
+            drawText(context, -4, "${mana.get()}/${intelligence.get()}", (0xff66d9e8).toInt())
         }
 
-        if (mana.hasOverflow) {
+        if (overflowMana.presenting) {
             // Draw overflow mana text
-            val barText2 = "${mana.overflow}ʬ"
+            val barText2 = "${overflowMana.value}ʬ"
             val x2 = x + barWidth - 7
             val y2 = y - 5
             TextUtils.drawBlackBorderedText(context, textRenderer, barText2, x2, y2, (0xffb197fc).toInt())
@@ -101,15 +118,15 @@ object FancyActionBar {
     }
 
     private fun drawZombieSword(context: DrawContext, x: Int, y: Int) {
-        val available = ActionBarParser.zombieSword!!.value
-        val max = ActionBarParser.zombieSword!!.max
+        val available = ActionBarData.zombieSwordAvailable.get()
+        val used = ActionBarData.zombieSwordUsed.get()
         var currentX = x
         repeat(available) {
-            context.drawTexture(statusResource, currentX, y, 0, 0, 7, 7)
+            context.drawTexture(STATUS_RESOURCE, currentX, y, 0, 0, 7, 7)
             currentX += 8
         }
-        repeat(max - available) {
-            context.drawTexture(statusResource, currentX, y, 8, 0, 7, 7)
+        repeat(used) {
+            context.drawTexture(STATUS_RESOURCE, currentX, y, 8, 0, 7, 7)
             currentX += 8
         }
     }
@@ -118,7 +135,7 @@ object FancyActionBar {
 
 
 //    private class StatBar(textColor: Int) {
-//        private val emptyTexture = StatBarTexture(column = 0)
+//        private val emptyTexture = StatBarText e(column = 0)
 //        private val barHeight = 5
 //        fun draw(
 //            matrices: MatrixStack,

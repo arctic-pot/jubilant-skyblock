@@ -8,9 +8,9 @@
   "config.jublockly.gui.parseSecrets": "Parse secrets",
   "config.jublockly.gui.parseSecrets.description": "Show secrets together with other status bars instead of in the action bar",
   "config.jublockly.qol": "QoL",
-  "config.jublockly.qol.enableNightVision": "Enable permanent night vision",
-  "config.jublockly.qol.enableNightVision.description": "Make everything brighter to see more clearly.",
+  "config.jublockly.qol.enableFullBright": "Enable full brightness",
+  "config.jublockly.qol.fullBrightImplementation": "Full brightness implementation",
   "config.jublockly.mining": "Mining",
-  "config.jublockly.mining.shareCrystalWaypoints": "Share crystal hollows waypoints",
-  "config.jublockly.mining.shareCrystalWaypoints.description": "Your waypoints in crystal hollows will be sent to or received from others in the same server. §cUSE AT YOUR OWN RISK!"
+  "config.jublockly.mining.shareCHWaypoints": "Share crystal hollows waypoints",
+  "config.jublockly.mining.shareCHWaypoints.description": "Your waypoints in crystal hollows will be sent to or received from others in the same server. §cUSE AT YOUR OWN RISK!"
 }
