@@ -2,8 +2,6 @@ package io.github.arcticpot.jublockly.mixin;
 
 import io.github.arcticpot.jublockly.config.JublocklyConfig;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +26,7 @@ public abstract class LightmapTextureManagerMixin {
         }
     }
 
-    @Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/clie nt/render/GameRenderer;getNightVisionStrength(Lnet/minecraft/entity/LivingEntity;F)F"))
+    @Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;getNightVisionStrength(Lnet/minecraft/entity/LivingEntity;F)F"))
     private float $getNightVisionStrength(LivingEntity entity, float tickDelta)
     {
         if (JublocklyConfig.INSTANCE.getEnableFullBright()
